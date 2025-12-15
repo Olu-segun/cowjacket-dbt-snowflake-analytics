@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: dim_customer.sql
+    columns:
+      - name: customer_id
+        tests:
+        - unique
+        - not_null
+      - name: first_name
+        tests:
+          - not_null
+      - name: last_name
+        tests:
+          - not_null
+  - name: fct_orders.sql
+    columns:
+      - name: total_quantity
+        tests:
+          - positive_value

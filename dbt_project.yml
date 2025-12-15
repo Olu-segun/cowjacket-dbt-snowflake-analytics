@@ -16,6 +16,9 @@ clean-targets:
   - "target"
   - "dbt_packages"
 
+on-run-end:
+  - "{{ log_run_results(results) }}"
+
 models:
   cowjacket_dbt_snowflake_analytics:
     source:
