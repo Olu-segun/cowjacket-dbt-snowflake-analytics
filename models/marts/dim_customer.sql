@@ -13,5 +13,5 @@ GROUP BY
     first_name,
     last_name,
     email
-ORDER BY customer_id 
+ORDER BY customer_id
 
