@@ -1,4 +1,3 @@
-
 WITH customers AS (
     SELECT * FROM {{ ref('stg_customers') }}
 ),
@@ -15,11 +14,12 @@ order_items_agg AS (
     GROUP BY order_id
 ),
 
-loyalty_points AS(
+loyalty_points_agg AS (
     SELECT
-            customer_id,
-            points_earned
-    FROM {{ref("stg_loyalty_points")}}
+        customer_id,
+        SUM(points_earned) AS total_points
+    FROM {{ ref('stg_loyalty_points') }}
+    GROUP BY customer_id
 ),
 
 customer_orders AS (
@@ -31,7 +31,9 @@ customer_orders AS (
         o.order_id,
         o.order_date,
         o.total_amount,
-        l.points_earned,
+        i.total_quantity,
+        l.total_points,
+
         COUNT(o.order_id) OVER (
             PARTITION BY c.customer_id
         ) AS total_orders,
@@ -49,9 +51,10 @@ customer_orders AS (
         ON c.customer_id = o.customer_id
     LEFT JOIN order_items_agg i
         ON o.order_id = i.order_id
-    LEFT JOIN loyalty_points l
+    LEFT JOIN loyalty_points_agg l
         ON c.customer_id = l.customer_id
 )
+
 SELECT *
 FROM customer_orders
-ORDER BY customer_id ASC
+ORDER BY customer_id
