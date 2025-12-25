@@ -1,15 +1,11 @@
-Welcome to your new dbt project!
+🐄 CowJacket dbt Cloud Analytics Engineering
+This repository contains the dbt (data build tool) project for CowJacket, designed to standardize data transformations, automate testing, and provide full lineage visibility using a three-layer modeling approach.
 
-### Using the starter project
+🏗 Project Architecture & Modeling
+We follow the industry-standard three-layer modeling architecture to ensure modularity and data quality:
 
-Try running the following commands:
-- dbt run
-- dbt test
+1. Staging (models/staging/): Clean, 1-to-1 mirroring of source data (SQL module data) with basic renaming and type casting.
 
+2. Intermediate (models/intermediate/): Complex joins and business logic that serve as building blocks for the final marts.
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [dbt community](https://getdbt.com/community) to learn from other analytics engineers
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+3. Marts (models/marts/): Final, analytics-ready models organized by business entity (e.g., customers, orders).
